@@ -1,9 +1,9 @@
 import { createStore } from 'vuex';
-import storeCount from './useDataLinks.js';
+import usersStore from './users';
 
 export const store = createStore({
   modules: {
-    storeCount
+    usersStore
   },
 });
 
