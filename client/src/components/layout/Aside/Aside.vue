@@ -1,26 +1,24 @@
 <template>
-  <form>
-    <label for="search-users">Поиск сотрудников</label>
-    <input
-      type="search"
-      id="search-users"
-      placeholder="Введите Id или имя"
-      @input="searchUsers"
-    />
-  </form>
+  <aside>
+    <form>
+      <label for="search-users">Поиск сотрудников</label>
+      <Search @update:users="usersUpdate" />
+    </form>
+    <ul>
+      <li v-for="user in users" :key="user.id">
+        {{ user.name + ' ' + user.id }}
+      </li>
+    </ul>
+  </aside>
 </template>
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { useStore } from 'vuex';
-const store = useStore();
-console.log(store, 'store');
-const data = ref([]);
+import { ref } from 'vue';
 
-function searchUsers() {}
+const users = ref([]);
 
-onMounted(async () => {
-  data.value = await store.dispatch('usersStore/fetchUsers');
-  console.log(data.value, 'DATa');
-});
+function usersUpdate(updatedUsers) {
+  users.value = updatedUsers;
+  console.log(users.value, 'Value');
+}
 </script>
 <style lang=""></style>

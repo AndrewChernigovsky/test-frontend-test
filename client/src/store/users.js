@@ -2,10 +2,21 @@ const state = () => ({
   users: null,
 });
 
+const getters = {
+  searchById: (state) => (id) => {
+    console.log(id, 'ID');
+    console.log(state.users, 'state.users ');
+    return state.users ? state.users.filter(user => user.id === id) : [];
+  },
+  searchByName: (state) => (name) => {
+    return state.users ? state.users.filter(user => user.name.toLowerCase().includes(name.toLowerCase())) : [];
+  },
+};
+
 const mutations = {
   setUsers(state, users) {
     state.users = users;
-  },
+  }
 };
 
 const actions = {
@@ -15,12 +26,11 @@ const actions = {
 
       if (!response.ok) {
         throw new Error('Ошибка при получении пользователей', error);
-      } else {
-        const data = await response.json();
-        commit('setUsers', data);
       }
+      const data = await response.json();
+      commit('setUsers', data);
     } catch (error) {
-      throw new Error('Ошибка при получении пользователей', error)
+      console.error('Ошибка при получении пользователей:', error);
     } finally {
       console.log('Пользователи загружены')
     }
@@ -32,4 +42,5 @@ export default {
   state,
   mutations,
   actions,
+  getters
 };
