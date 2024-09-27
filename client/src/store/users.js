@@ -8,17 +8,12 @@ const getters = {
   getFilteredUsers: (state) => state.filteredUsers,
 
   searchById: (state) => (ids) => {
-    let newUsers = state.users ? state.users.filter(user => ids.includes(user.id)) : [];
-    commit('setFilteredUsers', newUsers);
-
-    return newUsers;
+    return state.users ? state.users.filter(user => ids.includes(user.id)) : [];
   },
   searchByName: (state) => (names) => {
-    let newUsers = state.users ? state.users.filter(user =>
+    return state.users ? state.users.filter(user =>
       names.some(name => user.name.toLowerCase().includes(name.toLowerCase()))
-    ) : [];
-    commit('setFilteredUsers', newUsers);
-    return newUsers;
+    ) : [];;
   },
 };
 
