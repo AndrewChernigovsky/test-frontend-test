@@ -1,16 +1,22 @@
 <template>
   <header class="header">
-    <div class="container">
-      <img
-        class="header__image-logo"
-        src="@/assets/images/logo-academy.webp"
-        alt=""
-      />
-      <Menu />
+    <div class="container header__wrapper">
+      <Logo />
+      <p>Пользователь</p>
     </div>
   </header>
 </template>
 
-<script setup></script>
+<script setup>
+import Logo from '@/components/Logo/Logo';
+</script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.header {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+</style>

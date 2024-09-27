@@ -1,22 +1,32 @@
 const state = () => ({
   users: [],
+  filteredUsers: []
 });
 
 const getters = {
   getUsers: (state) => state.users,
+  getFilteredUsers: (state) => state.filteredUsers,
 
   searchById: (state) => (ids) => {
-    return state.users ? state.users.filter(user => ids.includes(user.id)) : [];
+    let newUsers = state.users ? state.users.filter(user => ids.includes(user.id)) : [];
+    commit('setFilteredUsers', newUsers);
+
+    return newUsers;
   },
   searchByName: (state) => (names) => {
-    return state.users ? state.users.filter(user =>
+    let newUsers = state.users ? state.users.filter(user =>
       names.some(name => user.name.toLowerCase().includes(name.toLowerCase()))
     ) : [];
+    commit('setFilteredUsers', newUsers);
+    return newUsers;
   },
 };
 
 const mutations = {
-  setUsers(state, users) {
+  setUsers(state, filteredUsers) {
+    state.filteredUsers = filteredUsers;
+  },
+  setFilteredUsers(state, users) {
     state.users = users;
   }
 };

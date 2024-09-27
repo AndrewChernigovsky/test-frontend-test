@@ -1,20 +1,13 @@
 <template>
   <router-link class="logo" to="/">
-    <svg>
-      <use :href="`#${icon}`"></use>
-    </svg>
+    <Icon :icon="'logo'" />
   </router-link>
 </template>
-<script setup>
-const props = defineProps({
-  icon: {
-    type: String,
-    required: true,
-  },
-});
-</script>
+<script setup></script>
 <style lang="scss" scoped>
 .logo {
   color: $BASE_RED;
+  max-width: 100%;
+  display: flex;
 }
 </style>

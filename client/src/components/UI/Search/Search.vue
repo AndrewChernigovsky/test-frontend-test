@@ -1,6 +1,6 @@
 <template>
   <div class="search">
-    <label class="search__label" for="search-users">Поиск сотрудников</label>
+    <p class="search__title">Поиск сотрудников</p>
     <input
       class="search__input"
       name="search"
@@ -18,9 +18,8 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, defineEmits } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { debounce } from 'lodash';
 
 const emit = defineEmits(['update:users']);
 const store = useStore();
@@ -68,7 +67,7 @@ watch(filteredUsers, (newUsers) => {
   gap: 5px;
   align-items: center;
 
-  &__label {
+  &__title {
   }
 
   &__input {
