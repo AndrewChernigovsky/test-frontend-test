@@ -1,14 +1,15 @@
 <template>
   <aside>
     <form>
-      <label for="search-users">Поиск сотрудников</label>
       <Search @update:users="usersUpdate" />
     </form>
-    <ul>
+    <p>Результаты</p>
+    <ul v-if="users.length > 0">
       <li v-for="user in users" :key="user.id">
         {{ user.name + ' ' + user.id }}
       </li>
     </ul>
+    <span v-if="users.length === 0">начните поиск</span>
   </aside>
 </template>
 <script setup>

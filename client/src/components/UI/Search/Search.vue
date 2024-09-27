@@ -1,38 +1,77 @@
 <template>
-  <input
-    name="search"
-    type="search"
-    id="search-users"
-    placeholder="Введите Id или имя"
-    @input="searchUsers"
-  />
+  <div class="search">
+    <label class="search__label" for="search-users">Поиск сотрудников</label>
+    <input
+      class="search__input"
+      name="search"
+      type="search"
+      id="search-users"
+      placeholder="Введите Id или имя"
+      @input="searchUsers"
+    />
+    <ul>
+      <li v-for="user in filteredUsers.value" :key="user.id">
+        {{ user.name }}
+      </li>
+    </ul>
+  </div>
 </template>
+
 <script setup>
-import { ref, computed, onMounted, defineEmits } from 'vue';
+import { ref, computed, watch, defineEmits } from 'vue';
 import { useStore } from 'vuex';
 import { debounce } from 'lodash';
 
+const emit = defineEmits(['update:users']);
 const store = useStore();
-
-const emit = defineEmits();
-const props = defineProps({
-  keystring: String,
-  required: false,
-});
-
-const users = ref([]);
 const searchTerm = ref('');
-
-const debouncedFetchUsers = debounce(async () => {
-  await store.dispatch('usersStore/fetchUsers');
-}, 300);
+const users = ref([]);
 
 function searchUsers(e) {
-  debouncedFetchUsers();
-  users.value = store.state.usersStore.users;
   searchTerm.value = e.target.value;
-  users.value = store.getters['usersStore/searchById'](searchTerm.value);
-  emit('update:users', users.value);
+  if (users.value.length === 0) {
+    (async () => {
+      await store.dispatch('usersStore/fetchUsers');
+      users.value = store.getters['usersStore/getUsers'];
+    })();
+  }
 }
+
+const filteredUsers = computed(() => {
+  const names = searchTerm.value
+    .split(',')
+    .map((name) => name.trim())
+    .filter((name) => name);
+
+  const ids = searchTerm.value
+    .split(',')
+    .map((id) => parseInt(id.trim(), 10))
+    .filter((id) => !isNaN(id));
+
+  if (ids.length >= 1) {
+    return store.getters['usersStore/searchById'](ids);
+  }
+  if (names.length >= 1) {
+    return store.getters['usersStore/searchByName'](names);
+  }
+  if (!searchTerm.value) return [];
+});
+
+watch(filteredUsers, (newUsers) => {
+  emit('update:users', newUsers);
+});
 </script>
-<style lang="scss" scoped></style>
+
+<style lang="scss" scoped>
+.search {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+
+  &__label {
+  }
+
+  &__input {
+  }
+}
+</style>

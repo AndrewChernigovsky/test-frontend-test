@@ -1,15 +1,17 @@
 const state = () => ({
-  users: null,
+  users: [],
 });
 
 const getters = {
-  searchById: (state) => (id) => {
-    console.log(id, 'ID');
-    console.log(state.users, 'state.users ');
-    return state.users ? state.users.filter(user => user.id === id) : [];
+  getUsers: (state) => state.users,
+
+  searchById: (state) => (ids) => {
+    return state.users ? state.users.filter(user => ids.includes(user.id)) : [];
   },
-  searchByName: (state) => (name) => {
-    return state.users ? state.users.filter(user => user.name.toLowerCase().includes(name.toLowerCase())) : [];
+  searchByName: (state) => (names) => {
+    return state.users ? state.users.filter(user =>
+      names.some(name => user.name.toLowerCase().includes(name.toLowerCase()))
+    ) : [];
   },
 };
 
@@ -23,16 +25,13 @@ const actions = {
   async fetchUsers({ commit }) {
     try {
       const response = await fetch('https://jsonplaceholder.typicode.com/users');
-
       if (!response.ok) {
-        throw new Error('Ошибка при получении пользователей', error);
+        throw new Error('Ошибка при получении пользователей');
       }
       const data = await response.json();
       commit('setUsers', data);
     } catch (error) {
       console.error('Ошибка при получении пользователей:', error);
-    } finally {
-      console.log('Пользователи загружены')
     }
   }
 };

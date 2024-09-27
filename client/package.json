@@ -19,6 +19,7 @@
   "devDependencies": {
     "@spiriit/vite-plugin-svg-spritemap": "^2.2.4",
     "@vitejs/plugin-vue": "^5.0.5",
+    "@vueuse/core": "^11.1.0",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
