@@ -9,22 +9,19 @@
       placeholder="Введите Id или имя"
       @input="searchUsers"
     />
-    <ul>
-      <li v-for="user in filteredUsers.value" :key="user.id">
-        {{ user.name }}
-      </li>
-    </ul>
+    <button @click="loadMore">Загрузить больше</button>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
-const emit = defineEmits(['update:users']);
+const emit = defineEmits(['update:users', 'get:users-value']);
 const store = useStore();
 const searchTerm = ref('');
 const users = ref([]);
+const currentPage = ref(1);
 
 function searchUsers(e) {
   searchTerm.value = e.target.value;
@@ -34,6 +31,7 @@ function searchUsers(e) {
       users.value = store.getters['usersStore/getUsers'];
     })();
   }
+  emit('get:users-value', searchTerm.value);
 }
 
 const filteredUsers = computed(() => {
@@ -56,6 +54,14 @@ const filteredUsers = computed(() => {
   if (!searchTerm.value) return [];
 });
 
+const loadMore = async () => {
+  currentPage.value++;
+  await store.dispatch('usersStore/fetchUsers', { page: currentPage.value });
+};
+onMounted(
+  async () =>
+    await store.dispatch('usersStore/fetchUsers', { page: currentPage.value })
+);
 watch(filteredUsers, (newUsers) => {
   emit('update:users', newUsers);
 });
@@ -63,14 +69,17 @@ watch(filteredUsers, (newUsers) => {
 
 <style lang="scss" scoped>
 .search {
-  display: flex;
+  display: grid;
   gap: 5px;
   align-items: center;
 
-  &__title {
-  }
-
   &__input {
+    min-height: 49px;
+    border: 1px solid $GREY_E9ECEF;
+    border-radius: 8px;
+    padding: 16px 24px;
+    font-size: 14px;
+    color: $GREY_76787D;
   }
 }
 </style>

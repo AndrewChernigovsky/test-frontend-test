@@ -8,9 +8,9 @@
       height="70"
     />
     <header>
-      <h3>{{ user.value.name }}</h3>
+      <!-- <h3>{{ user.value.name }}</h3> -->
       <p>
-        <span>email:</span><span>{{ user.value.email }}</span>
+        <!-- <span>email:</span><span>{{ user.value.email }}</span> -->
       </p>
       <p>
         <span>phone:</span><span>{{ phone }}</span>
@@ -35,12 +35,12 @@ const userId = route.params.id;
 
 const user = computed(() => {
   const filteredUsers = store.getters['usersStore/filteredUsers'];
-  return filteredUsers.find((u) => u.id === parseInt(route.params.id));
+  // return filteredUsers.find((u) => u.id === parseInt(route.params.id));
 });
 
 onMounted(() => {
   user.value = store.getters['usersStore/filteredUsers'];
-  user.value.filter((user) => user.value.id === userId);
+  // user.value.filter((user) => user.value.id === userId);
 });
 </script>
 <style lang="scss" scoped></style>

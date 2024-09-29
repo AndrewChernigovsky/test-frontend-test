@@ -24,13 +24,17 @@ import Aside from '@/components/layout/Aside/Aside';
   background-color: $GREY_FDFDFD;
   min-height: 100%;
   display: grid;
-  grid-template: repeat(12, 1fr);
+  grid-template-columns: repeat(12, 1fr);
   box-shadow: 0px 0px 10px 0px $GREY_0000001A;
   border-radius: 10px;
   padding: 0;
 
+  .aside {
+    grid-column: 1/4;
+  }
+
   .main-content {
-    grid-column: 4/12;
+    grid-column: 4/-1;
     align-content: center;
   }
 }

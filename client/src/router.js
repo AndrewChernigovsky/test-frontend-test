@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from './pages/Home.vue';
-import Profile from './pages/Profile.vue';
-import Page404 from './pages/Page404.vue';
+import Home from '@/pages/Home';
+import User from '@/pages/User';
+import Page404 from '@/pages/Page404';
 
 const routes = [
   {
@@ -15,8 +15,8 @@ const routes = [
   },
   {
     path: '/users/:id',
-    name: 'Profile',
-    component: Profile,
+    name: 'User',
+    component: User,
   },
 
 ];
