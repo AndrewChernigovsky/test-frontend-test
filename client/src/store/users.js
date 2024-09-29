@@ -37,7 +37,7 @@ const mutations = {
   clearUsers(state) {
     state.users = [];
     state.cached = false;
-  }
+  },
 };
 
 const actions = {
